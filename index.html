@@ -20,7 +20,7 @@
 
 /* =========================================================
    PHRAIMZ CONCEPTS — THE OCHRE
-   COMPLETE SINGLE-FILE WEBSITE
+   COMPLETE SINGLE-FILE LANDING PAGE
    ========================================================= */
 
 :root{
@@ -67,10 +67,6 @@ body{
     overflow-x:hidden;
 }
 
-body.locked{
-    overflow:hidden;
-}
-
 button,
 a{
     font:inherit;
@@ -87,7 +83,7 @@ a{
 
 
 /* =========================================================
-   INITIAL LOADER
+   LOADER
    ========================================================= */
 
 .loader{
@@ -132,6 +128,7 @@ a{
     height:56px;
 
     display:grid;
+
     place-items:center;
 
     border:
@@ -533,6 +530,11 @@ a{
         forwards;
 }
 
+
+/* =========================================================
+   ENTER EXPERIENCE LINK
+   ========================================================= */
+
 .enter{
 
     display:inline-flex;
@@ -583,6 +585,7 @@ a{
 .enter-arrow{
     font-size:18px;
 }
+
 
 @keyframes heroReveal{
 
@@ -706,7 +709,7 @@ a{
 
 
 /* =========================================================
-   PROJECT INFO PANEL
+   PROJECT INFORMATION PANEL
    ========================================================= */
 
 .info-panel{
@@ -1044,185 +1047,6 @@ a{
 
 
 /* =========================================================
-   IMMERSIVE TOUR
-   ========================================================= */
-
-.experience{
-
-    position:fixed;
-
-    inset:0;
-
-    z-index:5000;
-
-    background:#000;
-
-    opacity:0;
-
-    visibility:hidden;
-
-    transform:scale(.96);
-
-    transition:
-        opacity .8s ease,
-        transform 1s cubic-bezier(.2,.7,.2,1),
-        visibility .8s ease;
-}
-
-.experience.active{
-
-    opacity:1;
-
-    visibility:visible;
-
-    transform:scale(1);
-}
-
-.tour{
-
-    position:absolute;
-
-    inset:0;
-}
-
-.tour iframe{
-
-    width:100%;
-    height:100%;
-
-    display:block;
-
-    border:0;
-
-    background:#000;
-}
-
-
-/* =========================================================
-   TOUR UI
-   ========================================================= */
-
-.experience-ui{
-
-    position:absolute;
-
-    inset:0;
-
-    pointer-events:none;
-
-    z-index:20;
-}
-
-.experience-top{
-
-    position:absolute;
-
-    top:0;
-    left:0;
-
-    width:100%;
-    height:90px;
-
-    padding:
-        0 4vw;
-
-    display:flex;
-
-    align-items:center;
-
-    justify-content:space-between;
-}
-
-.experience-title strong{
-
-    display:block;
-
-    font-family:Georgia,serif;
-
-    font-size:18px;
-
-    font-weight:400;
-}
-
-.experience-title span{
-
-    color:
-        rgba(255,255,255,.55);
-
-    font-size:8px;
-
-    letter-spacing:2px;
-
-    text-transform:uppercase;
-}
-
-.close-tour{
-
-    pointer-events:auto;
-
-    cursor:pointer;
-
-    background:
-        rgba(0,0,0,.55);
-
-    backdrop-filter:blur(12px);
-
-    color:white;
-
-    border:
-        1px solid
-        rgba(255,255,255,.2);
-
-    padding:12px 17px;
-
-    font-size:9px;
-
-    letter-spacing:1.5px;
-
-    text-transform:uppercase;
-
-    transition:
-        background .3s ease;
-}
-
-.close-tour:hover{
-
-    background:
-        rgba(255,255,255,.15);
-}
-
-.experience-bottom{
-
-    position:absolute;
-
-    left:4vw;
-
-    bottom:30px;
-}
-
-.experience-hint{
-
-    padding:11px 15px;
-
-    background:
-        rgba(0,0,0,.45);
-
-    backdrop-filter:blur(12px);
-
-    border:
-        1px solid
-        rgba(255,255,255,.12);
-
-    color:
-        rgba(255,255,255,.65);
-
-    font-size:9px;
-
-    letter-spacing:1px;
-}
-
-
-/* =========================================================
    GALLERY
    ========================================================= */
 
@@ -1391,7 +1215,7 @@ a{
 
 
 /* =========================================================
-   GALLERY HOVER ZOOM
+   GALLERY HOVER
    ========================================================= */
 
 .gallery-item:hover
@@ -2190,28 +2014,6 @@ figcaption strong{
     }
 
 
-    /* TOUR */
-
-    .experience-top{
-
-        height:75px;
-
-        padding:
-            0 6vw;
-    }
-
-    .experience-title strong{
-        font-size:15px;
-    }
-
-    .experience-bottom{
-
-        left:6vw;
-
-        bottom:20px;
-    }
-
-
     /* INFO */
 
     .info-panel{
@@ -2468,9 +2270,15 @@ figcaption strong{
                 Project
             </button>
 
-            <button id="enterTop">
+            <!-- DIRECT PANO2VR LINK -->
+            <a
+                href="https://phraimz.github.io/ochre/tour.html"
+                target="_self"
+                class="experience-link">
+
                 Experience
-            </button>
+
+            </a>
 
         </nav>
 
@@ -2497,9 +2305,10 @@ figcaption strong{
         </p>
 
 
-        <button
-            class="enter"
-            id="enterBtn">
+        <!-- DIRECT PANO2VR LINK -->
+        <a
+            href="https://phraimz.github.io/ochre/tour.html"
+            class="enter">
 
             <span>
                 Enter Experience
@@ -2509,7 +2318,7 @@ figcaption strong{
                 ↗
             </span>
 
-        </button>
+        </a>
 
     </section>
 
@@ -2567,7 +2376,9 @@ figcaption strong{
     <button
         class="info-close"
         id="infoClose">
+
         ×
+
     </button>
 
 
@@ -2797,71 +2608,6 @@ figcaption strong{
 
 
 <!-- =====================================================
-     IMMERSIVE TOUR
-     ===================================================== -->
-
-<section
-    class="experience"
-    id="experience">
-
-
-    <div class="tour">
-
-        <iframe
-            id="tourFrame"
-            src="https://phraimz.github.io/ochre/tour.html"
-            title="The Ochre Interactive 360 Tour"
-            allow="fullscreen"
-            allowfullscreen>
-        </iframe>
-
-    </div>
-
-
-    <div class="experience-ui">
-
-        <div class="experience-top">
-
-            <div class="experience-title">
-
-                <strong>
-                    The Ochre
-                </strong>
-
-                <span>
-                    Immersive Virtual Experience
-                </span>
-
-            </div>
-
-
-            <button
-                class="close-tour"
-                id="closeTour">
-
-                ← Back to Project
-
-            </button>
-
-        </div>
-
-
-        <div class="experience-bottom">
-
-            <div class="experience-hint">
-
-                Drag to explore · Scroll to zoom
-
-            </div>
-
-        </div>
-
-    </div>
-
-</section>
-
-
-<!-- =====================================================
      GALLERY
      ===================================================== -->
 
@@ -2897,7 +2643,6 @@ figcaption strong{
 
 
         <figure class="gallery-item">
-
 
             <div class="gallery-image">
 
@@ -2942,7 +2687,6 @@ figcaption strong{
 
         <figure class="gallery-item">
 
-
             <div class="gallery-image">
 
                 <img
@@ -2986,7 +2730,6 @@ figcaption strong{
 
         <figure class="gallery-item">
 
-
             <div class="gallery-image">
 
                 <img
@@ -3029,7 +2772,6 @@ figcaption strong{
 
 
         <figure class="gallery-item">
-
 
             <div class="gallery-image">
 
@@ -3287,6 +3029,7 @@ function hideLoader(){
 }
 
 
+/* Normal loader removal */
 window.addEventListener(
     "load",
     function(){
@@ -3301,7 +3044,6 @@ window.addEventListener(
 
 
 /* Absolute fail-safe */
-
 setTimeout(
     hideLoader,
     2500
@@ -3312,139 +3054,25 @@ setTimeout(
    ELEMENTS
    ========================================================= */
 
-const project =
-    document.getElementById("project");
-
-const experience =
-    document.getElementById("experience");
-
-const enterBtn =
-    document.getElementById("enterBtn");
-
-const enterTop =
-    document.getElementById("enterTop");
-
-const closeTour =
-    document.getElementById("closeTour");
-
 const infoBtn =
-    document.getElementById("projectInfoBtn");
+    document.getElementById(
+        "projectInfoBtn"
+    );
 
 const infoPanel =
-    document.getElementById("infoPanel");
+    document.getElementById(
+        "infoPanel"
+    );
 
 const infoClose =
-    document.getElementById("infoClose");
+    document.getElementById(
+        "infoClose"
+    );
 
 const brandHome =
-    document.getElementById("brandHome");
-
-
-/* =========================================================
-   PAGE LOCK
-   ========================================================= */
-
-function lockPage(){
-
-    document.body.classList.add(
-        "locked"
+    document.getElementById(
+        "brandHome"
     );
-
-}
-
-
-function unlockPage(){
-
-    document.body.classList.remove(
-        "locked"
-    );
-
-}
-
-
-/* =========================================================
-   OPEN EXPERIENCE
-   ========================================================= */
-
-function openExperience(){
-
-    infoPanel.classList.remove(
-        "active"
-    );
-
-    lockPage();
-
-    project.style.transition =
-        "opacity .55s ease, transform .8s ease";
-
-    project.style.opacity = "0";
-
-    project.style.transform =
-        "scale(1.035)";
-
-
-    setTimeout(
-        function(){
-
-            experience.classList.add(
-                "active"
-            );
-
-        },
-        180
-    );
-
-}
-
-
-/* =========================================================
-   CLOSE EXPERIENCE
-   ========================================================= */
-
-function closeExperience(){
-
-    experience.classList.remove(
-        "active"
-    );
-
-
-    setTimeout(
-        function(){
-
-            project.style.opacity = "1";
-
-            project.style.transform =
-                "scale(1)";
-
-            unlockPage();
-
-        },
-        550
-    );
-
-}
-
-
-/* =========================================================
-   TOUR BUTTONS
-   ========================================================= */
-
-enterBtn.addEventListener(
-    "click",
-    openExperience
-);
-
-
-enterTop.addEventListener(
-    "click",
-    openExperience
-);
-
-
-closeTour.addEventListener(
-    "click",
-    closeExperience
-);
 
 
 /* =========================================================
@@ -3489,18 +3117,6 @@ brandHome.addEventListener(
             "active"
         );
 
-
-        if(
-            experience.classList.contains(
-                "active"
-            )
-        ){
-
-            closeExperience();
-
-        }
-
-
         window.scrollTo({
 
             top:0,
@@ -3522,24 +3138,12 @@ document.addEventListener(
     function(event){
 
         if(
-            event.key !== "Escape"
+            event.key === "Escape"
         ){
-            return;
-        }
 
-
-        infoPanel.classList.remove(
-            "active"
-        );
-
-
-        if(
-            experience.classList.contains(
+            infoPanel.classList.remove(
                 "active"
-            )
-        ){
-
-            closeExperience();
+            );
 
         }
 
@@ -3734,7 +3338,7 @@ let currentGalleryIndex = 0;
 
 
 /* =========================================================
-   OPEN GALLERY IMAGE
+   OPEN GALLERY
    ========================================================= */
 
 function openGallery(index){
@@ -3794,9 +3398,8 @@ function openGallery(index){
     );
 
 
-    document.body.classList.add(
-        "locked"
-    );
+    document.body.style.overflow =
+        "hidden";
 
 }
 
@@ -3811,16 +3414,14 @@ function closeGallery(){
         "active"
     );
 
-
-    document.body.classList.remove(
-        "locked"
-    );
+    document.body.style.overflow =
+        "";
 
 }
 
 
 /* =========================================================
-   NEXT IMAGE
+   NEXT
    ========================================================= */
 
 function nextGallery(){
@@ -3841,7 +3442,7 @@ function nextGallery(){
 
 
 /* =========================================================
-   PREVIOUS IMAGE
+   PREVIOUS
    ========================================================= */
 
 function previousGallery(){
