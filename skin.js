@@ -1,7 +1,7 @@
 // Garden Gnome Software - Skin
 // Pano2VR 7.1.8/20986
 // Filename: material_indexqqqq.ggsk
-// Generated 2026-08-19T20:55:31
+// Generated 2026-08-19T22:07:52
 
 function pano2vrSkin(player,base) {
 	player.addVariable('vis_sounds_splashscreen', 2, false, { ignoreInState: 1  });
@@ -8790,12 +8790,12 @@ function pano2vrSkin(player,base) {
 		el.className="ggskin ggskin_svg ";
 		el.ggType='svg';
 		hs ='';
-		hs+='height : 36px;';
-		hs+='left : calc(50% - ((36px + 0px) / 2) + 0px);';
+		hs+='height : 26px;';
+		hs+='left : calc(50% - ((26px + 0px) / 2) + 0px);';
 		hs+='position : absolute;';
-		hs+='top : calc(50% - ((36px + 0px) / 2) + 0px);';
+		hs+='top : calc(50% - ((26px + 0px) / 2) + 0px);';
 		hs+='visibility : inherit;';
-		hs+='width : 36px;';
+		hs+='width : 26px;';
 		hs+='pointer-events:auto;';
 		el.setAttribute('style',hs);
 		el.style.transformOrigin='50% 50%';
@@ -8861,12 +8861,12 @@ function pano2vrSkin(player,base) {
 		el.className="ggskin ggskin_svg ";
 		el.ggType='svg';
 		hs ='';
-		hs+='height : 36px;';
-		hs+='left : calc(50% - ((36px + 0px) / 2) + 0px);';
+		hs+='height : 26px;';
+		hs+='left : calc(50% - ((26px + 0px) / 2) + 0px);';
 		hs+='position : absolute;';
-		hs+='top : calc(50% - ((36px + 0px) / 2) + 0px);';
+		hs+='top : calc(50% - ((26px + 0px) / 2) + 0px);';
 		hs+='visibility : hidden;';
-		hs+='width : 36px;';
+		hs+='width : 26px;';
 		hs+='pointer-events:auto;';
 		el.setAttribute('style',hs);
 		el.style.transformOrigin='50% 50%';
@@ -9538,14 +9538,14 @@ function pano2vrSkin(player,base) {
 		hs ='';
 		hs+='background : rgba(0,0,0,0.705882);';
 		hs+='border : 0px solid #000000;';
+		hs+='bottom : 300px;';
 		hs+='cursor : default;';
-		hs+='height : 100%;';
-		hs+='left : 0px;';
+		hs+='height : 50%;';
 		hs+='opacity : 0;';
 		hs+='position : absolute;';
-		hs+='top : 0px;';
+		hs+='right : 500px;';
 		hs+='visibility : hidden;';
-		hs+='width : 100%;';
+		hs+='width : 50%;';
 		hs+='pointer-events:auto;';
 		el.setAttribute('style',hs);
 		el.style.transformOrigin='50% 50%';
@@ -17726,10 +17726,10 @@ this.__div.style.top = vs.height / 2 + "px";
 					((player.getVariableValue('resp_phone') == false))
 				)
 			) {
-				let pdfInterval_15 = setInterval(() => {
+				let pdfInterval_37 = setInterval(() => {
 					if (skin._pdf_popup_pdf__pdf.contentWindow.PDFViewerApplication && skin._pdf_popup_pdf__pdf.contentWindow.PDFViewerApplication.initialized && skin._pdf_popup_pdf__pdf.contentWindow.PDFViewerApplication.downloadComplete && skin._pdf_popup_pdf__pdf.contentWindow.PDFViewerApplication.pdfViewer._pageViewsReady) {
 						skin._pdf_popup_pdf.ggSetCurrentPage(Number(player._(me.hotspot.target)));
-						clearInterval(pdfInterval_15);
+						clearInterval(pdfInterval_37);
 					}
 				}, 50);
 			}
@@ -17752,10 +17752,10 @@ this.__div.style.top = vs.height / 2 + "px";
 					((player.getVariableValue('resp_phone') == true))
 				)
 			) {
-				let pdfInterval_16 = setInterval(() => {
+				let pdfInterval_38 = setInterval(() => {
 					if (skin._pdf_popup_phone__pdf.contentWindow.PDFViewerApplication && skin._pdf_popup_phone__pdf.contentWindow.PDFViewerApplication.initialized && skin._pdf_popup_phone__pdf.contentWindow.PDFViewerApplication.downloadComplete && skin._pdf_popup_phone__pdf.contentWindow.PDFViewerApplication.pdfViewer._pageViewsReady) {
 						skin._pdf_popup_phone.ggSetCurrentPage(Number(player._(me.hotspot.target)));
-						clearInterval(pdfInterval_16);
+						clearInterval(pdfInterval_38);
 					}
 				}, 50);
 			}
