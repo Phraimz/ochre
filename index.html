@@ -1,133 +1,258 @@
 <!DOCTYPE html>
-<html>
-	<head>
-		<meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
-		<title>The Ochre</title>
-		<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0" />
-		<meta name="apple-mobile-web-app-capable" content="yes" />
-		<meta name="apple-mobile-web-app-status-bar-style" content="black" />
-		<meta property="og:title" content="The Ochre">
-		<meta property="og:description" content="">
-		<meta name="mobile-web-app-capable" content="yes" />
-		<meta property="og:image" content="preview.jpg">
-		<style type="text/css" title="Default">
-			/* fullscreen */
-			html {
-				height:100%;
-			}
-			body {
-				height:100%;
-				margin: 0px;
-				background: black;
-				color: white;
-				overflow:hidden; /* disable scrollbars */
-				-webkit-tap-highlight-color: rgba(0, 0, 0, 0); /* remove highlight on tab for iOS/Android */
-			}
-			/* fix for scroll bars on webkit & >=Mac OS X Lion */
-			::-webkit-scrollbar {
-				background-color: rgba(0,0,0,0.5);
-				width: 0.75em;
-				height: 0.75em;
-			}
-			::-webkit-scrollbar-thumb {
-				background-color:  rgba(255,255,255,0.5);
-			}
-		</style>
-	</head>
-	<body>
-<!-- - - - - - - 8<- - - - - - cut here - - - - - 8<- - - - - - - -->
-		<script type="text/javascript" src="pano2vr_player.js?ts=16182776">
-		</script>
-		<script type="text/javascript" src="skin.js?ts=16182776">
-		</script>
-		<script src="https://www.youtube.com/iframe_api"></script>
-		<script src="https://player.vimeo.com/api/player.js"></script>
-		<script src="3rdparty/lottie/lottie.min.js"></script>
-		<div id="container" style="width:100%;height:100%;overflow:hidden;">
-		<br>Loading...<br><br>
-		</div>
-		<script type="text/javascript">
-		function parseParams(paramsString, params) {
-			paramsString = paramsString.substring(1);
-			var firstSeparatorPos = paramsString.indexOf(",");
-			if (firstSeparatorPos != -1) {
-				params.startNode = paramsString.slice(0, firstSeparatorPos);
-				var viewingParamsString = paramsString.slice(firstSeparatorPos + 1);
-				var viewingParams = viewingParamsString.split(",");
-				if (viewingParams.length >= 3) {
-					var startView = {};
-					startView["pan"] = viewingParams[0];
-					startView["tilt"] = viewingParams[1];
-					startView["fov"] = viewingParams[2];
-					if (viewingParams.length >= 4) {
-						startView["projection"] = viewingParams[3];
-					}
-					params.startView = startView;
-				}
-			} else {
-				params.startNode = paramsString;
-				params.startView = "";
-			}
-		}
-		var params = {};
-		parseParams(document.location.hash, params);
-		var startNode = params.startNode;
-		var startView = params.startView;
-		if (("onhashchange" in window) && (!(/MSIE (\d+\.\d+);/.test(navigator.userAgent)))) {
-			window.onhashchange = function () {
-				parseParams(window.location.hash, params);
-				pano.openNext('{' + params.startNode + '}', params.startView);
-			}
-		} else {
-			var lastHash = window.location.hash;
-			window.setInterval(function () {
-				if (window.location.hash != lastHash) {
-					lastHash = window.location.hash;
-					parseParams(window.location.hash, params);
-					pano.openNext('{' + params.startNode + '}', params.startView);
-				}
-			}, 100);
-		}
-			// create the panorama player with the container
-			pano=new pano2vrPlayer("container");
-			pano.startNode = startNode;
-			pano.startView = startView;
-			pano.setQueryParameter("ts=16182776")
-			// add the skin object
-			skin=new pano2vrSkin(pano);
-			// load the configuration
-			window.addEventListener("load", function() {
-				pano.readConfigUrlAsync("pano.xml?ts=16182776");
-			});
-			if (window.navigator.userAgent.match(/Safari/i)) {
-				// fix for white borders, rotation on iPhone
-				function iosHfix(e) {
-					window.scrollTo(0, 1);
-					var container=document.getElementById("container");
-					var oh=container.offsetHeight;
-					document.documentElement.style.setProperty('height', '100vh');
-					if (oh!=container.offsetHeight) {
-						container.style.setProperty('height',"100%");
-					} else {
-						container.style.setProperty('height',window.innerHeight+"px");
-					}
-					window.scrollTo(0, 0);
-					pano.setViewerSize(container.offsetWidth, container.offsetHeight);
-				};
-				setTimeout(iosHfix,0);
-				setTimeout(iosHfix,100);
-				window.addEventListener("resize", function() {
-					setTimeout(iosHfix,0);
-					// hide toolbar on iPad happens with a delay
-					setTimeout(iosHfix,500);
-					setTimeout(iosHfix,1000);
-					setTimeout(iosHfix,2000);
-				});
-			}
-		</script>
-		<noscript>
-			<p><b>Please enable Javascript!</b></p>
-		</noscript>
-<!-- - - - - - - 8<- - - - - - cut here - - - - - 8<- - - - - - - -->
-	</body>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#070707">
+<meta name="description" content="The Ochre — an immersive architectural experience by Phraimz Concepts.">
+<title>THE OCHRE — Phraimz Concepts</title>
+
+<style>
+:root{--bg:#070707;--white:#f5f2ec;--muted:#a6a29b;--accent:#c59b64;--line:rgba(255,255,255,.14)}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{width:100%;min-height:100%;background:var(--bg);color:var(--white);font-family:Arial,Helvetica,sans-serif;overflow-x:hidden}
+body.locked{overflow:hidden}
+button,a{font:inherit}button{border:0}a{color:inherit;text-decoration:none}
+
+.loader{position:fixed;inset:0;z-index:99999;background:#070707;display:flex;align-items:center;justify-content:center;flex-direction:column;opacity:1;visibility:visible;transition:opacity .9s ease,visibility .9s ease}
+.loader.hide{opacity:0;visibility:hidden;pointer-events:none}
+.loader-logo{width:56px;height:56px;display:grid;place-items:center;border:1px solid rgba(255,255,255,.4);font-size:11px;letter-spacing:1px;margin-bottom:30px}
+.loader-text{color:rgba(255,255,255,.72);font-size:9px;letter-spacing:3px;text-transform:uppercase;margin-bottom:17px}
+.loader-line{position:relative;width:160px;height:1px;background:rgba(255,255,255,.15);overflow:hidden}
+.loader-line span{position:absolute;left:0;top:0;width:35%;height:100%;background:var(--accent);animation:loadingProgress 1.2s cubic-bezier(.4,0,.2,1) infinite}
+@keyframes loadingProgress{0%{transform:translateX(-120%)}100%{transform:translateX(450%)}}
+
+.cursor{position:fixed;width:7px;height:7px;border-radius:50%;background:white;pointer-events:none;z-index:100000;transform:translate(-50%,-50%);mix-blend-mode:difference}
+.cursor-ring{position:fixed;width:30px;height:30px;border:1px solid rgba(255,255,255,.5);border-radius:50%;pointer-events:none;z-index:99999;transform:translate(-50%,-50%);transition:width .3s ease,height .3s ease,border-color .3s ease}
+.cursor-ring.expand{width:56px;height:56px;border-color:rgba(255,255,255,.75)}
+
+.project{position:relative;width:100vw;height:100vh;min-height:680px;overflow:hidden}
+.project-bg{position:absolute;inset:0;background-image:linear-gradient(to bottom,rgba(0,0,0,.18),rgba(0,0,0,.30) 42%,rgba(0,0,0,.88)),url("assets/images/hero-panorama.jpg");background-size:cover;background-position:center;transform:scale(1.10);animation:cinematicZoom 18s ease-out forwards}
+@keyframes cinematicZoom{from{transform:scale(1.12)}to{transform:scale(1.035)}}
+
+.topbar{position:absolute;top:0;left:0;width:100%;height:90px;padding:0 5vw;display:flex;align-items:center;justify-content:space-between;z-index:10;opacity:0;animation:heroFade 1s .15s ease forwards}
+.brand{display:flex;align-items:center;gap:12px;font-size:12px;font-weight:bold;letter-spacing:2px}
+.brand-mark{width:34px;height:34px;display:grid;place-items:center;border:1px solid rgba(255,255,255,.45);font-size:10px}
+.brand-sub{color:rgba(255,255,255,.5);font-size:8px;letter-spacing:1.5px;margin-left:5px}
+.menu{display:flex;gap:28px}.menu button{background:none;color:rgba(255,255,255,.7);cursor:pointer;font-size:10px;letter-spacing:1.5px;text-transform:uppercase;transition:color .3s}.menu button:hover{color:white}
+
+.hero-content{position:absolute;left:5vw;bottom:10vh;z-index:5;max-width:900px}
+.project-number{color:var(--accent);font-size:10px;letter-spacing:3px;margin-bottom:20px;text-transform:uppercase;opacity:0;transform:translateY(20px);animation:heroReveal 1s .35s cubic-bezier(.2,.7,.2,1) forwards}
+.project-title{font-family:Georgia,"Times New Roman",serif;font-weight:400;font-size:clamp(5rem,13vw,12rem);line-height:.78;letter-spacing:-7px;margin-bottom:30px;opacity:0;transform:translateY(35px);animation:heroReveal 1.15s .48s cubic-bezier(.2,.7,.2,1) forwards}
+.project-description{max-width:470px;color:rgba(255,255,255,.72);font-size:14px;line-height:1.8;margin-bottom:32px;opacity:0;transform:translateY(25px);animation:heroReveal 1s .72s cubic-bezier(.2,.7,.2,1) forwards}
+.enter{display:inline-flex;align-items:center;gap:25px;padding:18px 24px;background:white;color:#080808;cursor:pointer;font-size:10px;font-weight:bold;letter-spacing:1.8px;text-transform:uppercase;opacity:0;transform:translateY(20px);animation:heroReveal 1s .92s cubic-bezier(.2,.7,.2,1) forwards;transition:transform .35s,background .35s}
+.enter:hover{transform:translateY(-5px);background:#f1eee8}.enter-arrow{font-size:18px}
+@keyframes heroReveal{to{opacity:1;transform:translateY(0)}}@keyframes heroFade{to{opacity:1}}
+
+.side-info{position:absolute;right:5vw;bottom:10vh;z-index:5;text-align:right;opacity:0;animation:heroFade 1s 1.1s ease forwards}
+.side-label{color:rgba(255,255,255,.45);font-size:9px;letter-spacing:2px;text-transform:uppercase;margin-bottom:7px}.side-value{font-size:12px;letter-spacing:1px;margin-bottom:22px}
+.scroll{position:absolute;bottom:35px;left:50%;transform:translateX(-50%);z-index:5;display:flex;align-items:center;gap:12px;color:rgba(255,255,255,.45);font-size:9px;letter-spacing:2px;text-transform:uppercase;opacity:0;animation:heroFade 1s 1.4s ease forwards}.scroll-line{width:45px;height:1px;background:rgba(255,255,255,.4)}
+
+.info-panel{position:fixed;top:0;right:0;width:min(480px,100%);height:100vh;background:rgba(8,8,8,.96);backdrop-filter:blur(20px);z-index:7000;padding:120px 50px;transform:translateX(100%);transition:transform .7s cubic-bezier(.77,0,.18,1);border-left:1px solid var(--line);overflow-y:auto}
+.info-panel.active{transform:translateX(0)}.info-panel-number{color:var(--accent);font-size:10px;letter-spacing:2px}.info-panel h2{font-family:Georgia,serif;font-size:52px;font-weight:400;line-height:.95;margin:20px 0 30px}.info-panel p{color:var(--muted);font-size:14px;line-height:1.9;margin-bottom:30px}
+.info-close{position:absolute;top:30px;right:30px;width:40px;height:40px;display:grid;place-items:center;background:none;color:white;cursor:pointer;font-size:25px}
+
+.story-section,.benefits-section,.gallery-section{border-top:1px solid var(--line)}
+.story-section{position:relative;padding:150px 8vw;background:#090909}.story-label,.benefits-label,.gallery-label{color:var(--accent);font-size:9px;letter-spacing:3px}.story-label{margin-bottom:100px}
+.story-grid{max-width:1200px;margin:auto;display:grid;grid-template-columns:1fr 1fr;gap:10vw}.story-heading h2{font-family:Georgia,serif;font-size:clamp(3rem,6vw,6rem);font-weight:400;line-height:.95;letter-spacing:-3px}.story-text{padding-top:10px}.story-text p{color:var(--muted);font-size:15px;line-height:1.9;margin-bottom:30px}
+.story-details{margin-top:55px;display:grid;grid-template-columns:repeat(3,1fr);gap:20px;border-top:1px solid var(--line);padding-top:25px}.story-details span{display:block;color:#666;font-size:8px;letter-spacing:2px;margin-bottom:10px}.story-details strong{font-size:11px;font-weight:400}
+
+.benefits-section{position:relative;padding:150px 7vw 160px;background:#070707}.benefits-intro{max-width:700px;margin-bottom:90px}.benefits-label{margin-bottom:25px}.benefits-intro h2{font-family:Georgia,serif;font-weight:400;font-size:clamp(3.5rem,7vw,7rem);line-height:.9;letter-spacing:-4px}
+.benefits-grid{max-width:1250px;margin:auto;display:grid;grid-template-columns:repeat(3,1fr);border-top:1px solid var(--line)}.benefit{padding:35px 30px 30px;border-right:1px solid var(--line)}.benefit:last-child{border-right:0}.benefit-number{color:#555;font-size:9px;letter-spacing:2px;margin-bottom:55px}.benefit h3{font-family:Georgia,serif;font-weight:400;font-size:30px;margin-bottom:20px}.benefit p{color:var(--muted);font-size:13px;line-height:1.9;max-width:300px}
+
+.experience{position:fixed;inset:0;z-index:5000;background:#000;opacity:0;visibility:hidden;transform:scale(.96);transition:opacity .8s ease,transform 1s cubic-bezier(.2,.7,.2,1),visibility .8s ease}
+.experience.active{opacity:1;visibility:visible;transform:scale(1)}.tour{position:absolute;inset:0}.tour iframe{width:100%;height:100%;display:block;border:0;background:#000}
+.experience-ui{position:absolute;inset:0;pointer-events:none;z-index:20}.experience-top{position:absolute;top:0;left:0;width:100%;height:90px;padding:0 4vw;display:flex;align-items:center;justify-content:space-between}
+.experience-title strong{display:block;font-family:Georgia,serif;font-size:18px;font-weight:400}.experience-title span{color:rgba(255,255,255,.55);font-size:8px;letter-spacing:2px;text-transform:uppercase}
+.close-tour{pointer-events:auto;cursor:pointer;background:rgba(0,0,0,.55);backdrop-filter:blur(12px);color:white;border:1px solid rgba(255,255,255,.2);padding:12px 17px;font-size:9px;letter-spacing:1.5px;text-transform:uppercase;transition:background .3s}.close-tour:hover{background:rgba(255,255,255,.15)}
+.experience-bottom{position:absolute;left:4vw;bottom:30px}.experience-hint{padding:11px 15px;background:rgba(0,0,0,.45);backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,.12);color:rgba(255,255,255,.65);font-size:9px;letter-spacing:1px}
+
+.gallery-section{position:relative;padding:150px 7vw 170px;background:#070707}.gallery-header{max-width:680px;margin:0 auto 80px;text-align:center}.gallery-label{margin-bottom:24px}.gallery-header h2{font-family:Georgia,"Times New Roman",serif;font-size:clamp(4rem,7vw,7rem);font-weight:400;line-height:.9;letter-spacing:-4px;margin-bottom:28px}.gallery-header p{max-width:500px;margin:auto;color:var(--muted);font-size:14px;line-height:1.9}
+.gallery{width:100%;max-width:1250px;margin:auto;display:grid;grid-template-columns:repeat(2,1fr);gap:55px 35px}.gallery-item{margin:0;min-width:0}.gallery-image{position:relative;width:100%;aspect-ratio:16/10;overflow:hidden;border-radius:18px;background:#111;border:1px solid rgba(255,255,255,.08);transition:border-color .4s}.gallery-image::after{content:"";position:absolute;inset:0;background:linear-gradient(to bottom,transparent 52%,rgba(0,0,0,.22));pointer-events:none;z-index:2}.gallery-image img{width:100%;height:100%;display:block;object-fit:cover;transform:scale(1);transition:transform 1.1s cubic-bezier(.2,.7,.2,1)}
+.gallery-item:hover .gallery-image img{transform:scale(1.07)}.gallery-item:hover .gallery-image{border-color:rgba(255,255,255,.18)}
+.gallery-view{position:absolute;right:20px;bottom:20px;z-index:5;padding:9px 12px;background:rgba(0,0,0,.5);backdrop-filter:blur(10px);color:white;cursor:pointer;font-size:8px;letter-spacing:1.5px;opacity:0;transform:translateY(8px);transition:opacity .35s,transform .35s,background .3s}.gallery-view:hover{background:rgba(255,255,255,.18)}.gallery-item:hover .gallery-view{opacity:1;transform:translateY(0)}
+.gallery-item figcaption{display:flex;align-items:flex-start;gap:16px;padding:17px 4px 0}.gallery-item figcaption>span{color:#555;font-size:9px;letter-spacing:2px}.gallery-item figcaption strong{display:block;color:#eee;font-size:11px;font-weight:400;letter-spacing:1px;margin-bottom:6px}.gallery-item:hover figcaption strong{color:white}.gallery-item figcaption small{display:block;color:#666;font-size:8px;letter-spacing:1px;text-transform:uppercase}
+
+.lightbox{position:fixed;inset:0;z-index:9000;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,.96);opacity:0;visibility:hidden;pointer-events:none;transition:opacity .45s,visibility .45s}.lightbox.active{opacity:1;visibility:visible;pointer-events:auto}.lightbox-content{position:relative;width:min(88vw,1400px);max-height:88vh}.lightbox-content img{display:block;width:100%;max-height:78vh;object-fit:contain;border-radius:10px;opacity:0;transform:scale(.96);transition:opacity .45s,transform .55s cubic-bezier(.2,.7,.2,1)}.lightbox.active .lightbox-content img{opacity:1;transform:scale(1)}
+.lightbox-close{position:absolute;top:28px;right:35px;width:46px;height:46px;display:grid;place-items:center;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.2);border-radius:50%;color:white;cursor:pointer;font-size:26px;z-index:5;transition:background .3s,transform .3s}.lightbox-close:hover{background:rgba(255,255,255,.16);transform:rotate(90deg)}
+.lightbox-nav{position:absolute;top:50%;transform:translateY(-50%);width:52px;height:52px;display:grid;place-items:center;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.18);border-radius:50%;color:white;cursor:pointer;font-size:20px;z-index:5;transition:background .3s,transform .3s}.lightbox-prev{left:30px}.lightbox-next{right:30px}.lightbox-prev:hover{transform:translateY(-50%) translateX(-4px);background:rgba(255,255,255,.16)}.lightbox-next:hover{transform:translateY(-50%) translateX(4px);background:rgba(255,255,255,.16)}
+.lightbox-caption{display:flex;align-items:flex-start;gap:18px;padding-top:18px}.lightbox-caption>span{color:#666;font-size:9px;letter-spacing:2px}.lightbox-caption strong{display:block;color:#eee;font-size:12px;font-weight:400;letter-spacing:1px;margin-bottom:6px}.lightbox-caption small{display:block;color:#666;font-size:8px;letter-spacing:1px;text-transform:uppercase}
+
+.consultation{position:relative;min-height:78vh;display:flex;align-items:center;justify-content:center;text-align:center;overflow:hidden;background:#080808}.consultation-bg{position:absolute;inset:0;background:linear-gradient(rgba(0,0,0,.60),rgba(0,0,0,.84)),url("assets/images/a.jpg");background-size:cover;background-position:center;transform:scale(1.04)}.consultation-content{position:relative;z-index:2;max-width:900px;padding:100px 6vw}.consultation-label{color:var(--accent);font-size:10px;letter-spacing:3px;margin-bottom:25px}.consultation h2{font-family:Georgia,serif;font-size:clamp(3.5rem,7vw,7rem);font-weight:400;line-height:.92;letter-spacing:-3px;margin-bottom:30px}.consultation p{max-width:570px;margin:0 auto 38px;color:rgba(255,255,255,.68);font-size:15px;line-height:1.9}
+.cta-actions{display:flex;justify-content:center;align-items:center;gap:12px;flex-wrap:wrap}.consultation-button{display:inline-flex;align-items:center;gap:25px;padding:18px 25px;background:white;color:#080808;font-size:10px;font-weight:bold;letter-spacing:1.8px;text-transform:uppercase;transition:transform .3s,background .3s}.consultation-button:hover{transform:translateY(-5px);background:#f1eee8}.consultation-button span:last-child{font-size:18px}.whatsapp-button{display:inline-flex;align-items:center;gap:18px;padding:17px 23px;color:white;border:1px solid rgba(255,255,255,.35);font-size:10px;font-weight:bold;letter-spacing:1.6px;text-transform:uppercase;transition:background .3s,transform .3s}.whatsapp-button:hover{background:rgba(255,255,255,.1);transform:translateY(-5px)}
+.email-link{display:inline-block;margin-top:30px;color:rgba(255,255,255,.65);font-size:12px;letter-spacing:1px;border-bottom:1px solid rgba(255,255,255,.25);padding-bottom:7px;transition:color .3s,border-color .3s}.email-link:hover{color:white;border-color:white}
+.footer{padding:28px 5vw;background:#050505;border-top:1px solid var(--line)}.footer-inner{max-width:1200px;margin:auto;display:flex;align-items:center;justify-content:space-between;gap:20px}.footer-brand{font-size:11px;font-weight:bold;letter-spacing:2px}.footer p{color:#777;font-size:9px;letter-spacing:1px;text-transform:uppercase}
+
+@media(max-width:800px){
+body{overflow-x:hidden}.cursor,.cursor-ring{display:none}.topbar{height:75px;padding:0 6vw}.brand-sub{display:none}.menu{gap:15px}.menu button{font-size:8px}
+.hero-content{left:6vw;right:6vw;bottom:11vh}.project-title{font-size:clamp(4rem,20vw,7rem);letter-spacing:-3px}.project-description{font-size:13px}.side-info,.scroll{display:none}
+.story-section{padding:100px 6vw}.story-label{margin-bottom:60px}.story-grid{grid-template-columns:1fr;gap:50px}.story-details{grid-template-columns:1fr;gap:25px}
+.benefits-section{padding:100px 6vw 110px}.benefits-intro{margin-bottom:65px}.benefits-intro h2{letter-spacing:-3px}.benefits-grid{grid-template-columns:1fr}.benefit{padding:30px 0;border-right:0;border-bottom:1px solid var(--line)}.benefit:last-child{border-bottom:0}.benefit-number{margin-bottom:35px}
+.experience-top{height:75px;padding:0 6vw}.experience-title strong{font-size:15px}.experience-bottom{left:6vw;bottom:20px}
+.info-panel{padding:100px 30px 40px}.info-panel h2{font-size:43px}
+.gallery-section{padding:100px 6vw 120px}.gallery-header{margin-bottom:60px;text-align:left}.gallery-header h2{font-size:clamp(4rem,17vw,6rem);letter-spacing:-3px}.gallery{grid-template-columns:1fr;gap:55px}.gallery-image{aspect-ratio:4/3;border-radius:14px}.gallery-view{opacity:1;transform:none}
+.lightbox-close{top:18px;right:18px}.lightbox-nav{width:42px;height:42px;font-size:16px}.lightbox-prev{left:12px}.lightbox-next{right:12px}.lightbox-content{width:88vw}.lightbox-content img{max-height:70vh}
+.consultation{min-height:82vh}.consultation-content{padding:80px 6vw}.consultation h2{font-size:clamp(3rem,13vw,5rem);letter-spacing:-2px}.consultation p{font-size:14px}.cta-actions{flex-direction:column;width:100%}.consultation-button,.whatsapp-button{width:100%;justify-content:center}
+.footer-inner{flex-direction:column;text-align:center}
+}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
+</style>
+</head>
+
+<body>
+<div class="loader" id="loader"><div class="loader-logo">PC</div><div class="loader-text">Loading Experience</div><div class="loader-line"><span></span></div></div>
+<div class="cursor" id="cursor"></div><div class="cursor-ring" id="cursorRing"></div>
+
+<main class="project" id="project">
+<div class="project-bg"></div>
+<header class="topbar">
+<a href="#" class="brand" id="brandHome"><span class="brand-mark">PC</span><span>PHRAIMZ CONCEPTS</span><span class="brand-sub">DESIGN · ENGINEERING · DEVELOPMENT</span></a>
+<nav class="menu"><button id="projectInfoBtn">Project</button><button id="enterTop">Experience</button></nav>
+</header>
+<section class="hero-content">
+<div class="project-number">Project 001 · Virtual Experience</div>
+<h1 class="project-title">The<br>Ochre</h1>
+<p class="project-description">A carefully composed architectural experience designed to be explored, understood and felt before reality.</p>
+<button class="enter" id="enterBtn"><span>Enter Experience</span><span class="enter-arrow">↗</span></button>
+</section>
+<aside class="side-info"><div class="side-label">Project Type</div><div class="side-value">Residential</div><div class="side-label">Experience</div><div class="side-value">Interactive 360°</div><div class="side-label">Studio</div><div class="side-value">Phraimz Concepts</div></aside>
+<div class="scroll"><span>Explore</span><span class="scroll-line"></span></div>
+</main>
+
+<aside class="info-panel" id="infoPanel">
+<button class="info-close" id="infoClose">×</button><div class="info-panel-number">PROJECT 001</div><h2>The<br>Ochre</h2>
+<p>The Ochre is an architectural visualization project developed to explore how material, proportion, light and spatial relationships can work together to create a distinct atmosphere.</p>
+<p>Rather than experiencing the project through static drawings alone, the space is presented as an immersive virtual environment.</p>
+<p>Visitors can move through the design and experience the architecture from different viewpoints before construction begins.</p>
+</aside>
+
+<section class="story-section"><div class="story-label">01 — THE CONCEPT</div><div class="story-grid"><div class="story-heading"><h2>Architecture<br>beyond drawings.</h2></div><div class="story-text"><p>The Ochre explores how architecture can be communicated through atmosphere, material and movement rather than drawings alone.</p><p>Warm tones, controlled lighting and carefully considered proportions create a residential environment that feels both contemporary and grounded.</p><div class="story-details"><div><span>TYPE</span><strong>Residential</strong></div><div><span>VISUALIZATION</span><strong>3D + 360°</strong></div><div><span>STUDIO</span><strong>Phraimz Concepts</strong></div></div></div></div></section>
+
+<section class="benefits-section"><div class="benefits-intro"><div class="benefits-label">02 — THE EXPERIENCE</div><h2>Built to be<br>experienced.</h2></div><div class="benefits-grid">
+<article class="benefit"><div class="benefit-number">01</div><h3>Explore</h3><p>Navigate spaces naturally through an immersive 360° environment and experience the project from multiple viewpoints.</p></article>
+<article class="benefit"><div class="benefit-number">02</div><h3>Understand</h3><p>Experience scale, materiality, lighting and spatial relationships before construction begins.</p></article>
+<article class="benefit"><div class="benefit-number">03</div><h3>Present</h3><p>Give clients something they can interact with, rather than another static drawing or image.</p></article>
+</div></section>
+
+<section class="experience" id="experience">
+<div class="tour">
+<!-- UPDATED: this points to the working Pano2VR entry file -->
+<iframe id="tourFrame" src="https://phraimz.github.io/ochre/index.html" title="The Ochre Interactive 360 Tour" allow="fullscreen" allowfullscreen></iframe>
+</div>
+<div class="experience-ui"><div class="experience-top"><div class="experience-title"><strong>The Ochre</strong><span>Immersive Virtual Experience</span></div><button class="close-tour" id="closeTour">← Back to Project</button></div><div class="experience-bottom"><div class="experience-hint">Drag to explore · Scroll to zoom</div></div></div>
+</section>
+
+<section class="gallery-section" id="visuals"><div class="gallery-header"><div class="gallery-label">03 — SELECTED VISUALS</div><h2>A closer look.</h2><p>Selected views from The Ochre, revealing the project's material language, atmosphere and spatial character.</p></div>
+<div class="gallery">
+<figure class="gallery-item"><div class="gallery-image"><img src="assets/images/ochre-01.jpg" alt="The Ochre exterior" loading="lazy"><button class="gallery-view" type="button">VIEW ↗</button></div><figcaption><span>01</span><div><strong>Arrival</strong><small>Exterior Perspective</small></div></figcaption></figure>
+<figure class="gallery-item"><div class="gallery-image"><img src="assets/images/ochre-02.jpg" alt="The Ochre living space" loading="lazy"><button class="gallery-view" type="button">VIEW ↗</button></div><figcaption><span>02</span><div><strong>Living</strong><small>Interior Perspective</small></div></figcaption></figure>
+<figure class="gallery-item"><div class="gallery-image"><img src="assets/images/ochre-03.jpg" alt="The Ochre bedroom" loading="lazy"><button class="gallery-view" type="button">VIEW ↗</button></div><figcaption><span>03</span><div><strong>Retreat</strong><small>Bedroom Perspective</small></div></figcaption></figure>
+<figure class="gallery-item"><div class="gallery-image"><img src="assets/images/ochre-04.jpg" alt="The Ochre architectural detail" loading="lazy"><button class="gallery-view" type="button">VIEW ↗</button></div><figcaption><span>04</span><div><strong>Atmosphere</strong><small>Architectural Detail</small></div></figcaption></figure>
+</div></section>
+
+<div class="lightbox" id="lightbox"><button class="lightbox-close" id="lightboxClose" aria-label="Close image">×</button><button class="lightbox-nav lightbox-prev" id="lightboxPrev" aria-label="Previous image">←</button><div class="lightbox-content"><img id="lightboxImage" src="" alt=""><div class="lightbox-caption"><span id="lightboxNumber">01</span><div><strong id="lightboxTitle">Arrival</strong><small id="lightboxSubtitle">Exterior Perspective</small></div></div></div><button class="lightbox-nav lightbox-next" id="lightboxNext" aria-label="Next image">→</button></div>
+
+<section class="consultation" id="consultation"><div class="consultation-bg"></div><div class="consultation-content"><div class="consultation-label">PHRAIMZ CONCEPTS</div><h2>See your project<br>before it exists.</h2><p>Transform your architectural designs into immersive experiences that allow clients to explore, understand and connect with a project before construction begins.</p><div class="cta-actions"><a href="mailto:ephraimikwueze@gmail.com?subject=Project%20Enquiry%20%E2%80%94%20Phraimz%20Concepts" class="consultation-button"><span>Start a Project</span><span>↗</span></a><a href="https://wa.me/2347066456141?text=Hello%20Phraimz%20Concepts%2C%20I%20just%20experienced%20The%20Ochre%20and%20I%27d%20like%20to%20discuss%20a%20project." target="_blank" rel="noopener" class="whatsapp-button"><span>WhatsApp</span><span>↗</span></a></div><a href="mailto:ephraimikwueze@gmail.com" class="email-link">ephraimikwueze@gmail.com</a></div></section>
+
+<footer class="footer"><div class="footer-inner"><div class="footer-brand">PHRAIMZ CONCEPTS</div><p>DESIGN · ENGINEERING · DEVELOPMENT</p><p>© <span id="year"></span></p></div></footer>
+
+<script>
+const loader=document.getElementById("loader");
+function hideLoader(){if(loader)loader.classList.add("hide")}
+window.addEventListener("load",()=>setTimeout(hideLoader,450));
+setTimeout(hideLoader,2500);
+
+const project=document.getElementById("project"),experience=document.getElementById("experience"),
+enterBtn=document.getElementById("enterBtn"),enterTop=document.getElementById("enterTop"),
+closeTour=document.getElementById("closeTour"),infoBtn=document.getElementById("projectInfoBtn"),
+infoPanel=document.getElementById("infoPanel"),infoClose=document.getElementById("infoClose"),
+brandHome=document.getElementById("brandHome");
+
+function lockPage(){document.body.classList.add("locked")}
+function unlockPage(){document.body.classList.remove("locked")}
+
+function openExperience(){
+ infoPanel.classList.remove("active");lockPage();
+ project.style.transition="opacity .55s ease, transform .8s ease";
+ project.style.opacity="0";project.style.transform="scale(1.035)";
+ setTimeout(()=>experience.classList.add("active"),180);
+}
+function closeExperience(){
+ experience.classList.remove("active");
+ setTimeout(()=>{project.style.opacity="1";project.style.transform="scale(1)";unlockPage()},550);
+}
+enterBtn.addEventListener("click",openExperience);
+enterTop.addEventListener("click",openExperience);
+closeTour.addEventListener("click",closeExperience);
+
+infoBtn.addEventListener("click",()=>infoPanel.classList.add("active"));
+infoClose.addEventListener("click",()=>infoPanel.classList.remove("active"));
+brandHome.addEventListener("click",e=>{
+ e.preventDefault();infoPanel.classList.remove("active");
+ if(experience.classList.contains("active"))closeExperience();
+ window.scrollTo({top:0,behavior:"smooth"});
+});
+document.addEventListener("keydown",e=>{
+ if(e.key!=="Escape")return;
+ infoPanel.classList.remove("active");
+ if(experience.classList.contains("active"))closeExperience();
+});
+
+const cursor=document.getElementById("cursor"),cursorRing=document.getElementById("cursorRing");
+let mouseX=0,mouseY=0,ringX=0,ringY=0;
+document.addEventListener("mousemove",e=>{
+ mouseX=e.clientX;mouseY=e.clientY;
+ if(cursor){cursor.style.left=mouseX+"px";cursor.style.top=mouseY+"px"}
+});
+function animateCursor(){
+ ringX+=(mouseX-ringX)*.14;ringY+=(mouseY-ringY)*.14;
+ if(cursorRing){cursorRing.style.left=ringX+"px";cursorRing.style.top=ringY+"px"}
+ requestAnimationFrame(animateCursor);
+}
+animateCursor();
+document.querySelectorAll("button,a,.gallery-item").forEach(el=>{
+ el.addEventListener("mouseenter",()=>cursorRing&&cursorRing.classList.add("expand"));
+ el.addEventListener("mouseleave",()=>cursorRing&&cursorRing.classList.remove("expand"));
+});
+
+const galleryItems=Array.from(document.querySelectorAll(".gallery-item"));
+const lightbox=document.getElementById("lightbox"),lightboxImage=document.getElementById("lightboxImage"),
+lightboxClose=document.getElementById("lightboxClose"),lightboxPrev=document.getElementById("lightboxPrev"),
+lightboxNext=document.getElementById("lightboxNext"),lightboxNumber=document.getElementById("lightboxNumber"),
+lightboxTitle=document.getElementById("lightboxTitle"),lightboxSubtitle=document.getElementById("lightboxSubtitle");
+let currentGalleryIndex=0;
+
+function openGallery(index){
+ const item=galleryItems[index];if(!item)return;
+ const image=item.querySelector("img"),number=item.querySelector("figcaption > span"),
+ title=item.querySelector("figcaption strong"),subtitle=item.querySelector("figcaption small");
+ currentGalleryIndex=index;lightboxImage.src=image.src;lightboxImage.alt=image.alt;
+ lightboxNumber.textContent=number.textContent;lightboxTitle.textContent=title.textContent;lightboxSubtitle.textContent=subtitle.textContent;
+ lightbox.classList.add("active");document.body.classList.add("locked");
+}
+function closeGallery(){lightbox.classList.remove("active");document.body.classList.remove("locked")}
+function nextGallery(){currentGalleryIndex=(currentGalleryIndex+1)%galleryItems.length;openGallery(currentGalleryIndex)}
+function previousGallery(){currentGalleryIndex=(currentGalleryIndex-1+galleryItems.length)%galleryItems.length}
+function previousGalleryAndOpen(){previousGallery();openGallery(currentGalleryIndex)}
+galleryItems.forEach((item,index)=>{
+ const view=item.querySelector(".gallery-view");
+ if(view)view.addEventListener("click",e=>{e.preventDefault();e.stopPropagation();openGallery(index)});
+});
+lightboxClose.addEventListener("click",closeGallery);
+lightboxNext.addEventListener("click",nextGallery);
+lightboxPrev.addEventListener("click",previousGalleryAndOpen);
+lightbox.addEventListener("click",e=>{if(e.target===lightbox)closeGallery()});
+document.addEventListener("keydown",e=>{
+ if(!lightbox.classList.contains("active"))return;
+ if(e.key==="Escape")closeGallery();
+ if(e.key==="ArrowRight")nextGallery();
+ if(e.key==="ArrowLeft")previousGalleryAndOpen();
+});
+
+document.getElementById("year").textContent=new Date().getFullYear();
+new Image().src="assets/images/hero-panorama.jpg";
+new Image().src="assets/images/a.jpg";
+</script>
+</body>
 </html>
